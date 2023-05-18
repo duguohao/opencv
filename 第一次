@@ -2,3 +2,281 @@ https://opencv.org/releases/  安装
 
 
 https://blog.csdn.net/weixin_50553521/article/details/128325056  教程
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Random;
+
+
+public class IntelligentAgricultureSystem {
+    private SensorDataCollector dataCollector;
+    private DataAnalyzer dataAnalyzer;
+    private DecisionSupportSystem decisionSupportSystem;
+    private AutomationController automationController;
+    private UserInterface userInterface;
+
+    public IntelligentAgricultureSystem() {
+        dataCollector = new SensorDataCollector();
+        dataAnalyzer = new DataAnalyzer();
+        decisionSupportSystem = new DecisionSupportSystem();
+        automationController = new AutomationController();
+        userInterface = new UserInterface();
+    }
+
+    public void run() {
+        // 采集传感器数据
+        String sensorId = "sensor001";
+        double value = dataCollector.collectData(sensorId);
+
+        // 存储传感器数据
+        Date timestamp = new Date();
+        dataCollector.storeData(sensorId, value, timestamp);
+
+        // 分析数据
+        SensorDataAnalysisResult analysisResult = dataAnalyzer.analyzeData(sensorId);
+
+        // 决策支持
+        Decision decision = decisionSupportSystem.makeDecision(analysisResult);
+
+        // 控制自动化系统
+        automationController.controlAutomation(decision);
+
+        // 显示用户界面
+        userInterface.displayUI(analysisResult, decision);
+    }
+
+    public static void main(String[] args) {
+        IntelligentAgricultureSystem system = new IntelligentAgricultureSystem();
+        system.run();
+    }
+}
+
+class SensorDataCollector {
+    public double collectData(String sensorId) {
+        // 使用模拟数据进行采集
+        Random random = new Random();
+        double value = random.nextDouble() * 100; // 生成一个0到100之间的随机数作为采集的数据
+        return value;
+    }
+
+    public void storeData(String sensorId, double value, Date timestamp) {
+        System.out.println("传感器ID: " + sensorId);
+        System.out.println("数值: " + value);
+        System.out.println("时间戳: " + timestamp);
+        System.out.println("数据已成功存储！");
+    }
+
+    // 其他方法...
+}
+
+class SensorDataAnalysisResult {
+    private double soilMoisture;
+    private double nutritionIndex;
+    private double temperature;
+
+    public double getSoilMoisture() {
+        return soilMoisture;
+    }
+
+    public void setSoilMoisture(double soilMoisture) {
+        this.soilMoisture = soilMoisture;
+    }
+
+    public double getNutritionIndex() {
+        return nutritionIndex;
+    }
+
+    public void setNutritionIndex(double nutritionIndex) {
+        this.nutritionIndex = nutritionIndex;
+    }
+
+    public double getTemperature() {
+        return temperature;
+    }
+
+    public void setTemperature(double temperature) {
+        this.temperature = temperature;
+    }
+}
+
+class DataAnalyzer {
+    public SensorDataAnalysisResult analyzeData(String sensorId) {
+        SensorDataAnalysisResult analysisResult = new SensorDataAnalysisResult();
+
+        // 实际的土壤湿度分析代码
+        double soilMoisture = analyzeSoilMoisture(sensorId);
+        analysisResult.setSoilMoisture(soilMoisture);
+
+        // 实际的植物营养指数分析代码
+        double nutritionIndex = analyzeNutritionIndex(sensorId);
+        analysisResult.setNutritionIndex(nutritionIndex);
+
+        // 实际的温度分析代码
+        double temperature = analyzeTemperature(sensorId);
+        
+        analysisResult.setTemperature(temperature);
+
+        return analysisResult;
+    }
+
+    private double analyzeSoilMoisture(String sensorId) {
+        // TODO: 根据传感器ID获取土壤湿度数据，并进行分析
+        // 这里仅作为示例，假设将传感器ID转为整数作为土壤湿度数据
+        int id = Integer.parseInt(sensorId);
+        double soilMoisture = id;
+
+        // TODO: 进行土壤湿度分析的其他逻辑，例如计算平均值、标准差等
+        double average = calculateAverage(soilMoisture);
+        double standardDeviation = calculateStandardDeviation(soilMoisture);
+
+        // 输出分析结果
+        System.out.println("土壤湿度平均值: " + average);
+        System.out.println("土壤湿度标准差: " + standardDeviation);
+
+        return soilMoisture;
+    }
+
+    private double calculateAverage(double... values) {
+        // 计算平均值
+        double sum = 0;
+        for (double value : values) {
+            sum += value;
+        }
+        return sum / values.length;
+    }
+
+    private double calculateStandardDeviation(double... values) {
+        // 计算标准差
+        double average = calculateAverage(values);
+        double sumOfSquaredDifferences = 0;
+        for (double value : values) {
+            double difference = value - average;
+            sumOfSquaredDifferences += difference * difference;
+        }
+        return Math.sqrt(sumOfSquaredDifferences / values.length);
+    }
+    
+    
+    
+    
+
+
+    private double analyzeNutritionIndex(String sensorId) {
+        // TODO: 根据传感器ID获取植物营养指数数据，并进行分析
+        // 这里仅作为示例，假设将传感器ID的平方根作为植物营养指数数据
+        int id = Integer.parseInt(sensorId);
+        double nutritionIndex = Math.sqrt(id);
+
+        // 创建植物营养指数数据列表
+        List<Double> nutritionIndexList = new ArrayList<>();
+        nutritionIndexList.add(nutritionIndex);
+
+        // TODO: 进行植物营养指数分析的其他逻辑
+        double averageNutritionIndex = calculateAverageNutritionIndex(nutritionIndexList);
+        double standardDeviation = calculateStandardDeviationNutritionIndex(nutritionIndexList);
+
+        // 输出分析结果
+        System.out.println("平均植物营养指数: " + averageNutritionIndex);
+        System.out.println("植物营养指数标准差: " + standardDeviation);
+
+        return nutritionIndex;
+    }
+
+    private double calculateAverageNutritionIndex(List<Double> nutritionIndexList) {
+        double sum = 0.0;
+        for (double index : nutritionIndexList) {
+            sum += index;
+        }
+        return sum / nutritionIndexList.size();
+    }
+
+    private double calculateStandardDeviationNutritionIndex(List<Double> nutritionIndexList) {
+        double mean = calculateAverageNutritionIndex(nutritionIndexList);
+        double sum = 0.0;
+        for (double index : nutritionIndexList) {
+            sum += Math.pow(index - mean, 2);
+        }
+        double variance = sum / nutritionIndexList.size();
+        return Math.sqrt(variance);
+    }
+    
+    
+    
+    
+
+class DecisionSupportSystem {
+    public Decision makeDecision(SensorDataAnalysisResult analysisResult) {
+        Decision decision = new Decision();
+        // 根据分析结果进行决策的操作
+        return decision;
+    }
+}
+
+class Decision {
+    // 存储决策结果的类定义
+
+    public boolean isWateringRequired() {
+        // TODO: 根据实际情况实现
+        return false;
+    }
+
+    public boolean isFertilizingRequired() {
+        // TODO: 根据实际情况实现
+        return false;
+    }
+
+    public boolean isVentilationRequired() {
+        // TODO: 根据实际情况实现
+        return false;
+    }
+}
+
+class AutomationController {
+    public void controlAutomation(Decision decision) {
+        if (decision.isWateringRequired()) {
+            // 执行浇水操作
+            waterPlants();
+        }
+
+        if (decision.isFertilizingRequired()) {
+            // 执行施肥操作
+            fertilizePlants();
+        }
+
+        if (decision.isVentilationRequired()) {
+            // 执行通风操作
+            ventilateGreenhouse();
+        }
+
+        // 根据决策结果进行相应的自动化控制操作
+    }
+
+    private void waterPlants() {
+        // 执行浇水操作的逻辑
+        System.out.println("正在执行浇水操作...");
+        // 实际的浇水操作代码
+    }
+
+    private void fertilizePlants() {
+        // 执行施肥操作的逻辑
+        System.out.println("正在执行施肥操作...");
+        // 实际的施肥操作代码
+    }
+
+    private void ventilateGreenhouse() {
+        // 执行通风操作的逻辑
+        System.out.println("正在执行通风操作...");
+        // 实际的通风操作代码
+    }
+
+    // 其他自动化控制操作的方法...
+}
+
+class UserInterface {
+    public void displayUI(SensorDataAnalysisResult analysisResult, Decision decision) {
+        // 实现显示用户界面的逻辑
+        // 在这里根据分析结果和决策结果，将相关信息展示给用户
+        System.out.println("显示用户界面...");
+    }
+}}
+
